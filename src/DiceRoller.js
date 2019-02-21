@@ -4,61 +4,66 @@ class DiceRoller extends Component{
 
     constructor(props) {
         super(props)
-        this.state = {diceRollResult : null}
-        this.rollDice = this.rollDice.bind(this)
+        this.state = {
+            diceRollResult : null, 
+            diceType : 20,
+            diceRolls : [],
+            numberOfDice : 1
+        }
+    }
+    
+    roll(e) {
+        e.preventDefault();
+        const numberOfDice = this.state.numberOfDice
+        let currentResult = 0;
+        const rolls = [];
+        for(let i=0; i<numberOfDice; i++) {
+            const currentRoll = this.rollDie();
+            rolls.push(currentRoll)
+            currentResult += currentRoll;
+        }
+        this.setState({diceRollResult : currentResult, diceRolls : rolls});
     }
 
-    rollDice() {
-        var selectBox = document.getElementById("DiceSelect");
-        var currentDie = selectBox.options[selectBox.selectedIndex].value;
-        var diceType;
-        switch(currentDie) {
-            case "D20":
-                diceType = 20;
-                break;
-            case "D12":
-                diceType = 12;
-                break;
-            case "D10":
-                diceType = 10;
-                break;
-            case "D8":
-                diceType = 8;
-                break;
-            case "D6":
-                diceType = 6;
-                break;
-            case "D4":
-                diceType = 4;
-                break;
-            default:
-                diceType = 0;
-                break;
-        }
-        var diceRollResult = Math.floor(Math.random() * diceType + 1);
-        this.setState({diceRollResult: diceRollResult})
+    rollDie() {
+        const currentDie = this.state.diceType;
+        let diceRollResult = Math.floor(Math.random() * currentDie + 1);
+        return diceRollResult;
+    }
+
+    handleChange(value) {
+        return e => this.setState({
+            [value]: e.target.value
+        })
     }
 
     render() {
-        var diceRollResultDiv;
-        if(this.state.diceRollResult) {
-            diceRollResultDiv = (<div>Dice Roll Result: {this.state.diceRollResult}</div>)
+        const dice = [20,12,10,8,6,4]
+        const diceOptions = dice.map((die, idx) => {
+            return(
+                <option key={idx} value={die}>D{die}</option>
+            )
+        })
+        const numDiceOptions = [];
+        for(let i=1; i<11; i++) {
+            numDiceOptions.push(<option key={i} value={i}>{i}</option>)
         }
         return (
-            <div>
+            <div id="DiceRollerContainer">
                 <div className="DiceRoller">
                     <div>Pick a die or dice to roll</div>
-                    <select id="DiceSelect">
-                        <option value='D20'>D20</option>
-                        <option value='D12'>D12</option>
-                        <option value='D10'>D10</option>
-                        <option value='D8'>D8</option>
-                        <option value='D6'>D6</option>
-                        <option value='D4'>D4</option>
-                    </select>
-                    <button onClick={this.rollDice}>Enter</button>
+                    <form className="DiceRoller" onSubmit={(e) => this.roll(e)}>
+                        <select value={this.state.diceType} onChange={this.handleChange('diceType')}>
+                            {diceOptions}
+                        </select>
+                        <select value={this.state.numberOfDice} onChange={this.handleChange('numberOfDice')}>
+                            {numDiceOptions}
+                        </select>
+                        <button>Enter</button>
+                    </form>
                 </div>
-                <div className="DiceRoller">{diceRollResultDiv}</div>
+                <div className="DiceRoller">{JSON.stringify(this.state.diceRolls)}</div>
+                <div className="DiceRoller">Dice Roll Result: {this.state.diceRollResult}</div>
             </div>
         );
     }
