@@ -1,8 +1,21 @@
-.DiceRoller {
+.Top-level {
   text-align: center;
   display:flex;
   justify-content: center;
-  margin-left: 200
+  margin-top: 20px;
+}
+.Dice-roller {
+  text-align: center;
+  display:flex;
+  justify-content: center;
+}
+
+.Heist-game {
+  text-align: center;
+  display:flex;
+  justify-content: center;
+  flex-direction: column;
+  /* max-width: 70pc; */
 }
 
 .App-header {
@@ -14,4 +27,25 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-menu {
+  background-color: #454d5b;
+  min-height: 7px;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(7px + 2vmin);
+  color: white
+}
+
+.Header-button {
+  border: 1px solid black;
+  margin-left: 10px;
+  background-color: rgb(248, 245, 240);
+  padding: 2px;
+  text-decoration: none;
+  color: black;
+  border-radius: 5px;
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class DiceRoller extends Component{
+class DiceRoller extends Component {
 
     constructor(props) {
         super(props)
@@ -49,10 +49,10 @@ class DiceRoller extends Component{
             numDiceOptions.push(<option key={i} value={i}>{i}</option>)
         }
         return (
-            <div id="DiceRollerContainer">
-                <div className="DiceRoller">
-                    <div>Pick a die or dice to roll</div>
-                    <form className="DiceRoller" onSubmit={(e) => this.roll(e)}>
+            <div id="DiceRollerContainer" >
+                <div className="Top-level">
+                    <div>Pick a die or dice to roll: </div>
+                    <form  onSubmit={(e) => this.roll(e)}>
                         <select value={this.state.diceType} onChange={this.handleChange('diceType')}>
                             {diceOptions}
                         </select>
@@ -62,8 +62,8 @@ class DiceRoller extends Component{
                         <button>Enter</button>
                     </form>
                 </div>
-                <div className="DiceRoller">{JSON.stringify(this.state.diceRolls)}</div>
-                <div className="DiceRoller">Dice Roll Result: {this.state.diceRollResult}</div>
+                <div className="Dice-roller">Total Rolls: {JSON.stringify(this.state.diceRolls)}</div>
+                <div className="Dice-roller">Dice Roll Result: {this.state.diceRollResult}</div>
             </div>
         );
     }
