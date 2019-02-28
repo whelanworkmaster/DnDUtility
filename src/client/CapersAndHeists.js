@@ -19,28 +19,22 @@ class CapersAndHeists extends Component{
         }
     }
 
-    caperType() {
-        return (
-            <div>duh</div>
-        )
-    }
-
     render() {
         const heistType = this.state.heistType;
-        let caperText;
+        let caperTypeText;
         switch(heistType) {
-            case 'heist': caperText = <p className="Heist-game">If the method is heist, you want to know where they're sneaking in and when.
+            case 'heist': caperTypeText = <p className="Heist-game">If the method is heist, you want to know where they're sneaking in and when.
                 Ex: "We're hitting the wizards tower while everyone is distracted by the tournabment. A heist will involve stealth as the 
                 primary skill the players will use. Try to plan skill encounters that involve stealth checks. </p>
                 break;
-            case 'workTheMark': caperText = <p className="Heist-game">If the method is work the mark you need to know what offer they are making
+            case 'workTheMark': caperTypeText = <p className="Heist-game">If the method is work the mark you need to know what offer they are making
                 to their mark i.e. we are going to blackmail them to get what we want. </p>
                 break;
-            case 'conJob': caperText = <p className="Heist-game">If the method is Con Job what is the method of deception? You want to broadly know
+            case 'conJob': caperTypeText = <p className="Heist-game">If the method is Con Job what is the method of deception? You want to broadly know
                 what they are lying about but not every detail of the con. Ex: "We want her to think I am her long lost uncle". Don't need to know
                 how they are deceiving, just the core con.</p>
                 break;
-            case 'hitJob': caperText = <p className="Heist-game">If the method is hit job have them tell you the target and where they want
+            case 'hitJob': caperTypeText = <p className="Heist-game">If the method is hit job have them tell you the target and where they want
                 the ambush to happen. Keep it loose ex: "We're hitting them at their house"; "We're attacking here when her convoy is moving".
                 You just want to know what scene the players are expecting. Don't waste table time getting caught in specifics.</p>
                 break;
@@ -62,7 +56,8 @@ class CapersAndHeists extends Component{
                     <button value='conJob' onClick={this.handleChange('heistType')}>Con Job</button>
                     <button value='hitJob' onClick={this.handleChange('heistType')}>Hit Job</button>
                 </form>
-                {caperText}
+                <p> {caperTypeText}
+                </p>
             </div>
         );
     }
