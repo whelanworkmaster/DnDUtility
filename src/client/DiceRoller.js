@@ -49,8 +49,8 @@ class DiceRoller extends Component {
             numDiceOptions.push(<option key={i} value={i}>{i}</option>)
         }
         return (
-            <div className="Dice-roller">
-                <div>
+            <div className="Content">
+                <div className="Dice-roller">
                     <div>Pick a die or dice to roll: </div>
                     <form  onSubmit={(e) => this.roll(e)}>
                         <select value={this.state.diceType} onChange={this.handleChange('diceType')}>
@@ -62,10 +62,10 @@ class DiceRoller extends Component {
                         <button>Enter</button>
                     </form>
                 </div>
-                <p>
-                    <div>Total Rolls: {JSON.stringify(this.state.diceRolls)}</div>
-                    <div>Dice Roll Result: {this.state.diceRollResult}</div>
-                </p>
+                <div className="Dice-roller">
+                    <p>Total Rolls: {JSON.stringify(this.state.diceRolls)}</p>
+                    <p>Dice Roll Result: {this.state.diceRollResult}</p>
+                </div>
             </div>
         );
     }

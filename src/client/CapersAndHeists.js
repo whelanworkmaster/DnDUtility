@@ -40,8 +40,8 @@ class CapersAndHeists extends Component{
                 break;
         }
         return(
-            <div>
-                <div className="Top-level">These are rules for running a heist or criminal act in a roleplaying game, 
+            <div className="Content">
+                <div className="Heist-game">These are rules for running a heist or criminal act in a roleplaying game, 
                     so this should be used by the GM as they are planning with the players</div>
                 <div className="Heist-game">
                     <p>Players will begin by choosing four possible choices that will form the basis of the caper.
