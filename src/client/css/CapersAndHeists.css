@@ -1,0 +1,6 @@
+.Heist-game {
+    text-align: left;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+}

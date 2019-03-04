@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 
 class CapersAndHeists extends Component{
 
@@ -37,6 +36,8 @@ class CapersAndHeists extends Component{
             case 'hitJob': caperTypeText = <p className="Heist-game">If the method is hit job have them tell you the target and where they want
                 the ambush to happen. Keep it loose ex: "We're hitting them at their house"; "We're attacking here when her convoy is moving".
                 You just want to know what scene the players are expecting. Don't waste table time getting caught in specifics.</p>
+                break;
+            default:
                 break;
         }
         return(

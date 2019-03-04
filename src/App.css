@@ -1,24 +1,9 @@
+@import url("./client/css/DiceRoller.css");
+@import url("./client/css/Login.css");
+@import url("./client/css/CapersAndHeists.css");
+
 .Body {
   display: flex;
-}
-
-.Content {
-  margin: 2% 10%;
-}
-
-.Center-content {
-  text-align: center;
-  display:flex;
-  justify-content: center;  
-  flex-direction: column;
-  width: 100vh;
-}
-
-.Heist-game {
-  text-align: left;
-  display:flex;
-  justify-content: center;
-  flex-direction: column;
 }
 
 .App-header {
@@ -52,15 +37,4 @@
   padding: 2px;
   text-decoration: none;
   color: black;
-}
-
-.Login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.Login-form > * {
-  margin: 5px 0;
 }
