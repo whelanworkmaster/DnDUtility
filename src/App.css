@@ -6,7 +6,7 @@
   margin: 2% 10%;
 }
 
-.Dice-roller {
+.Center-content {
   text-align: center;
   display:flex;
   justify-content: center;  
@@ -48,10 +48,19 @@
 
 .Menu-button {
   border: 1px solid black;
-  margin-left: 10px;
   background-color: rgb(248, 245, 240);
   padding: 2px;
   text-decoration: none;
   color: black;
-  border-radius: 5px;
+}
+
+.Login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Login-form > * {
+  margin: 5px 0;
 }

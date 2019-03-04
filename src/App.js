@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import DiceRoller from './client/DiceRoller.js'
-import SideMenu from './client/SideMenu.js'
-import CapersAndHeists from './client/CapersAndHeists'
+import DiceRoller from './client/DiceRoller.js';
+import SideMenu from './client/SideMenu.js';
+import CapersAndHeists from './client/CapersAndHeists';
+import Login from './client/Login';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 
 class App extends Component {
@@ -16,6 +17,7 @@ class App extends Component {
                 <SideMenu></SideMenu>
                 <Route path="/diceRoller" component={DiceRoller}></Route>
                 <Route path="/capersAndHeists" component={CapersAndHeists}></Route>
+                <Route path="/login" component={Login}></Route>
               </div>
             </div>
           </Router>
