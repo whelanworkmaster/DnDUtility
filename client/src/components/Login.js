@@ -22,7 +22,7 @@ class Login extends Component {
     handleSubmit() {
         return e => {
             e.preventDefault();
-            fetch('http://localhost:5000/api/loginUser', {
+            fetch('/api/loginUser', {
                 method: 'post',
                 body: JSON.stringify(this.state),
                 headers: {"content-type": "application/json"}
