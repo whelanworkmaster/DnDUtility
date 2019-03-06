@@ -14,10 +14,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(cors());
 
-app.get('/api/hello', (res) => {
-    res.send({express : 'Hello From Express'})
-});
-
 app.get('/api/getUsers', (req, res) => {
     User.find(function(err, users) {
         if(err) {
@@ -25,6 +21,16 @@ app.get('/api/getUsers', (req, res) => {
         } else {
             res.json(users);
         }
+    })
+})
+
+app.get('/api/getUserByUsername', (req, res) => {
+    db.connectToDB();
+
+    let username = req.query.username;
+
+    User.findOne({"user_name" : username}, function(err, user) {
+        res.json(user);
     })
 })
 
@@ -42,14 +48,37 @@ app.post('/api/addUser', (req, res) => {
                 user_password: hashPassword
             });
         
-            newUser.save()
-                .then(newUser => {
-                    res.status(200).json({'newUser': 'new User added successfully'});
-                })
-                .catch(err => {
-                    res.status(400).send('adding new User failed');
-            });
+            User.findOne({"user_name" : username}, function(err, user) {
+                if(user != null) {
+                    res.send('User already exists');
+                } else {
+                    newUser.save()
+                    .then(newUser => {
+                        res.status(200).json({'newUser': 'new User added successfully'});
+                    })
+                    .catch(err => {
+                        res.status(400).send('adding new User failed');
+                    });
+                }
+            })
     });
+});
+
+app.post('/api/loginUser', (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+
+    db.connectToDB();
+
+    User.findOne({"user_name" : username}, function(err, user) {
+        return bcrypt.compare(password, user.user_password)
+    })
+    .then(function(samePassword) {
+        if(!samePassword) {
+            res.status(403).send();
+        }
+        res.send();
+    })
     
 });
 
