@@ -15,6 +15,8 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(cors());
 
 app.get('/api/getUsers', (req, res) => {
+    db.connectToDB();
+    
     User.find(function(err, users) {
         if(err) {
             console.log(err);
@@ -75,11 +77,16 @@ app.post('/api/loginUser', (req, res) => {
     })
     .then(function(samePassword) {
         if(!samePassword) {
+            console.log("Not same password");
             res.status(403).send();
         }
         res.send();
     })
-    
+    .catch(function(error){
+        console.log("Error authenticating user: ");
+        console.log(error);
+        next();
+    });
 });
 
 app.listen(port, () => console.log(`Listening on port: ${port}`));

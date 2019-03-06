@@ -11,32 +11,7 @@ module.exports.connectToDB = function () {
     })
 }
 
-module.exports.hashPassword = function(password, cb) {
-    var BCRYPT_SALT_ROUNDS = 12;
-
-    bcrypt.hash(password, BCRYPT_SALT_ROUNDS)
-        .then(function(hashedPassword) {
-            cb(hashedPassword);
-    });
-}
-
-module.exports.getUsers = function() {
-    User.find(function(err, users) {
-        if(err) {
-            return console.log(err);
-        } else {
-            console.log("Users found");
-            console.log(JSON.stringify(users));
-            return users;
-        }
-    })
-}
-
-exports.addUser = function(newUsername, newPassword) {
-    console.log("new Username: " + newUsername, "new Password: " + newPassword);
-    let newUser = new User({
-        username: newUsername, 
-        password: newPassword
-    });
-    return newUser;
+module.exports.addUser = function (newUsername, newPassword) {
+    const user = new User({username: newUsername, password: newPassword});
+    return user.save();
 }
