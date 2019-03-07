@@ -1,92 +1,28 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const cors = require('cors');
-
-const bcrypt = require('bcrypt');
-const User = require('./login/user.model.js');
-
 const app = express();
-const port = process.env.PORT || 5000;
+const config = require('./app/config/config');
 
-var db = require('./login/db.js');
-
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+app.use(methodOverride());
 app.use(cors());
 
-app.get('/api/getUsers', (req, res) => {
-    db.connectToDB();
-    
-    User.find(function(err, users) {
-        if(err) {
-            console.log(err);
-        } else {
-            res.json(users);
-        }
-    })
+
+
+mongoose.connect(config.db);
+
+mongoose.connection.on('connected', function() {
+    console.log('Mongoose default connection open to ' + config.db);
 })
 
-app.get('/api/getUserByUsername', (req, res) => {
-    db.connectToDB();
-
-    let username = req.query.username;
-
-    User.findOne({"user_name" : username}, function(err, user) {
-        res.json(user);
-    })
+app.listen(config.port, function(err) {
+    if(err) throw err;
+    console.log('App listening on port ' + config.port);
 })
-
-app.post('/api/addUser', (req, res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    
-    db.connectToDB();
-
-    var BCRYPT_SALT_ROUNDS = 12;
-    bcrypt.hash(password, BCRYPT_SALT_ROUNDS)
-        .then(function(hashPassword) {
-            let newUser = new User({
-                user_name: username, 
-                user_password: hashPassword
-            });
-        
-            User.findOne({"user_name" : username}, function(err, user) {
-                if(user != null) {
-                    res.send('User already exists');
-                } else {
-                    newUser.save()
-                    .then(newUser => {
-                        res.status(200).json({'newUser': 'new User added successfully'});
-                    })
-                    .catch(err => {
-                        res.status(400).send('adding new User failed');
-                    });
-                }
-            })
-    });
-});
-
-app.post('/api/loginUser', (req, res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-
-    db.connectToDB();
-
-    User.findOne({"user_name" : username}, function(err, user) {
-        return bcrypt.compare(password, user.user_password)
-    })
-    .then(function(samePassword) {
-        if(!samePassword) {
-            console.log("Not same password");
-            res.status(403).send();
-        }
-        res.send();
-    })
-    .catch(function(error){
-        console.log("Error authenticating user: ");
-        console.log(error);
-        next();
-    });
-});
-
-app.listen(port, () => console.log(`Listening on port: ${port}`));

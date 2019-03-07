@@ -5,14 +5,19 @@
   "proxy": "http://localhost:5000/",
   "dependencies": {
     "bcrypt": "^3.0.4",
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.5",
-    "express": "^4.16.4",
+    "chai": "^4.2.0",
     "mocha": "^6.0.2",
-    "mongoose": "^5.4.17"
+    "sinon": "^7.2.7",
+    "sinon-mongoose": "^2.2.1"
   },
   "devDependencies": {
-    "concurrently": "^4.0.1"
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.4.17",
+    "morgan": "^1.9.1"
   },
   "scripts": {
     "start": "node server.js",
