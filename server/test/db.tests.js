@@ -1,10 +1,7 @@
-var expect = require('chai').expect;
-var db = require('../login/db');
-var User = require('../login/user.model');
+var db = require('../controller/db');
 var assert = require('assert');
-var bcrypt = require('bcrypt');
 
-describe('addUser()', function () {
+describe('addUser()', function (done) {
     it('should add a user to the User table in MongoDB', function(done) {
         let username = 'testUser';
         let password = 'testPassword'
@@ -14,4 +11,25 @@ describe('addUser()', function () {
                 done();
         });
     });
+})
+
+describe('getUsers()', function(done) {
+
+    let testUsername = 'testUser';
+    let testPassword = 'testPass';
+
+    let req = { body: {} };
+    let res = {
+        json: function(users) {
+            var isSameUsername = users[0].username === testUsername;
+            var isSamePassword = users[0].password === testPassword;
+            assert(isSameUsername && isSamePassword);
+        }
+    };
+
+    it('should return all the users in the table', function() {
+        db.addUser(testUsername, testPassword).then(() => {
+            db.getAllUsers(req, res);
+        })
+    })
 })

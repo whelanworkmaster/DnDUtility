@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('./user.model.js');
+const User = require('../model/user.model.js');
 
 
 module.exports.connectToDB = function () {
@@ -13,4 +13,15 @@ module.exports.connectToDB = function () {
 module.exports.addUser = function (newUsername, newPassword) {
     const user = new User({username: newUsername, password: newPassword});
     return user.save();
+}
+
+module.exports.getAllUsers = function(req, res) {
+    User.find(function(err, users) {
+        if(err) {
+            console.log(err);
+            err;
+        } else {
+            res.json(users);
+        }
+    })
 }
