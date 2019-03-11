@@ -15,13 +15,20 @@ module.exports.addUser = function (newUsername, newPassword) {
     return user.save();
 }
 
-module.exports.getAllUsers = function(req, res) {
+module.exports.getAllUsers = function(res) {
     User.find(function(err, users) {
         if(err) {
             console.log(err);
-            err;
         } else {
             res.json(users);
         }
+    })
+}
+
+module.exports.getUserByUsername = function(req, res) {
+    let username = req.query.username;
+
+    User.findOne({"username" : username}, function(err, user) {
+        res.json(user);
     })
 }

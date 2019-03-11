@@ -15,15 +15,11 @@ app.use(cors());
 db.connectToDB();
 
 app.get('/api/getUsers', (req, res) => {
-    db.getAllUsers(req, res);
+    db.getAllUsers(res);
 })
 
 app.get('/api/getUserByUsername', (req, res) => {
-    let username = req.query.username;
-
-    User.findOne({"username" : username}, function(err, user) {
-        res.json(user);
-    })
+    db.getUserByUsername(req, res);
 })
 
 app.post('/api/addUser', (req, res) => {
