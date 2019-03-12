@@ -12,6 +12,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(cors());
 
+
+
 db.connectToDB();
 
 app.get('/api/getUsers', (req, res) => {
@@ -23,32 +25,7 @@ app.get('/api/getUserByUsername', (req, res) => {
 })
 
 app.post('/api/addUser', (req, res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    
-    var BCRYPT_SALT_ROUNDS = 12;
-    bcrypt.hash(password, BCRYPT_SALT_ROUNDS)
-        .then(function(hashPassword) {
-            let newUser = new User({
-                username: username, 
-                password: hashPassword
-            });
-        
-            User.findOne({"username" : username}, function(err, user) {
-                if(user != null) {
-                    res.send('User already exists');
-                } else {
-                    newUser.save()
-                    .then(newUser => {
-                        res.status(200).json({'newUser': 'new User added successfully'});
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(400).send('adding new User failed ');
-                    });
-                }
-            })
-    });
+    db.addUserReq(req, res);
 });
 
 app.post('/api/loginUser', (req, res) => {
