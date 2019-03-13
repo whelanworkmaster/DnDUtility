@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 let testUsername = 'testUser';
 let testPassword = 'testPass';
 
+let testTimeout = 500;
+
 
 
 describe('addUser()', function () {
@@ -83,7 +85,7 @@ describe('addUserReq()', function() {
         let res = {
             send: function(res){}
         }
-        
+
         let lookupReq = { query: {username: testUsername}};
         let lookupRes = {
             json: function(result) {
@@ -97,7 +99,7 @@ describe('addUserReq()', function() {
         db.addUserReq(req, res);
         setTimeout(function () {
             db.getUserByUsername(lookupReq, lookupRes);
-        }, 1000);
+        }, testTimeout);
 
     })
 
@@ -114,7 +116,75 @@ describe('addUserReq()', function() {
         db.addUserReq(req, res);
         setTimeout(function () {
             db.addUserReq(req, res);
-        }, 1000)
+        }, testTimeout)
 
     })
+})
+
+describe("loginUser()", function() {
+    let addRes = {send: function(res){}}
+
+    let req = { body: {
+        username: testUsername,
+        password: testPassword
+    }};
+
+    it('Should return true if the user can login, password matches one in db', function(done) {
+
+        let loginRes = {
+            send: function(response) {
+                assert(response === 'User authenticated correctly')
+                done();
+            },
+            status: function(response) {
+                assert(response === 200);
+            }
+        }
+        
+        db.addUserReq(req, addRes);
+        setTimeout(function () {
+            db.loginUser(req, loginRes);
+        }, testTimeout)
+
+    })
+
+    it('Should should fail if the user is found but the password is diff', function(done) {
+
+        let loginReq = { body: {
+            username: testUsername,
+            password: 'differentPassword'
+        }}
+        let loginRes = {
+            send: function(response) {
+                assert(response === 'Username or password not found')
+                done();
+            },
+            status: function(response) {
+                assert(response === 403);
+            }
+        }
+        
+        db.addUserReq(req, addRes);
+        setTimeout(function () {
+            db.loginUser(loginReq, loginRes);
+        }, testTimeout)
+
+    })
+
+    it('Should should fail if the user is not found', function(done) {
+
+        let loginRes = {
+            send: function(response) {
+                assert(response === 'Username or password not found')
+                done();
+            },
+            status: function(response) {
+                assert(response === 403);
+            }
+        }
+        
+        db.loginUser(req, loginRes);
+        
+    })
+
 })

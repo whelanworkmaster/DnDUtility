@@ -63,3 +63,30 @@ module.exports.addUserReq = function(req, res) {
     })
 
 }
+
+module.exports.loginUser = function(req, res) {
+    let username = req.body.username;
+    let password = req.body.password;
+
+    User.findOne({"username" : username}, function(err, user) {
+        if(user != null) {
+            bcrypt.compare(password, user.password, function(err, isSame) {
+                if(!isSame) {
+                    res.status(403);
+                    return res.send("Username or password not found");
+                } else {
+                    res.status(200);
+                    return res.send("User authenticated correctly");
+                }
+            });
+        } else {
+            res.status(403);
+            return res.send("Username or password not found");
+        }
+    })
+    .catch(function(error){
+        console.log("Error authenticating user: ");
+        console.log(error);
+        next();
+    });
+}
