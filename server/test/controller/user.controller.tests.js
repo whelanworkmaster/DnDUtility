@@ -1,4 +1,4 @@
-var db = require('../controller/db');
+var userController = require('../../controller/user.controller');
 var assert = require('assert');
 const bcrypt = require('bcrypt');
 
@@ -12,7 +12,7 @@ let testTimeout = 500;
 describe('addUser()', function () {
 
     it('should add a user to the User table in MongoDB', function(done) {
-        let user = db.addUser(testUsername, testPassword)
+        let user = userController.addUser(testUsername, testPassword)
         user.then(() => {
             assert(!user.isNew);
             done();
@@ -33,8 +33,8 @@ describe('getUsers()', function() {
             }
         };
 
-        db.addUser(testUsername, testPassword).then(() => {
-            db.getAllUsers(res);
+        userController.addUser(testUsername, testPassword).then(() => {
+            userController.getAllUsers(res);
         })
     })
 
@@ -53,8 +53,8 @@ describe('getUserByUsername()', function() {
             }
         };
 
-        db.addUser(testUsername, testPassword).then(() => {
-            db.getUserByUsername(req, res);
+        userController.addUser(testUsername, testPassword).then(() => {
+            userController.getUserByUsername(req, res);
         })
     })
 
@@ -63,7 +63,7 @@ describe('getUserByUsername()', function() {
 describe('hashPassword', function() {
 
     it('should hash the password and return a true compare with same pass', function(done) {
-        db.hashPassword(testPassword, function(hashedPassword) {
+        userController.hashPassword(testPassword, function(hashedPassword) {
             bcrypt.compare(testPassword, hashedPassword, function(err, isSamePassword) {
                 assert(isSamePassword);
                 done();
@@ -96,9 +96,9 @@ describe('addUserReq()', function() {
             }
         }
 
-        db.addUserReq(req, res);
+        userController.addUserReq(req, res);
         setTimeout(function () {
-            db.getUserByUsername(lookupReq, lookupRes);
+            userController.getUserByUsername(lookupReq, lookupRes);
         }, testTimeout);
 
     })
@@ -113,9 +113,9 @@ describe('addUserReq()', function() {
             }
         }
 
-        db.addUserReq(req, res);
+        userController.addUserReq(req, res);
         setTimeout(function () {
-            db.addUserReq(req, res);
+            userController.addUserReq(req, res);
         }, testTimeout)
 
     })
@@ -141,9 +141,9 @@ describe("loginUser()", function() {
             }
         }
         
-        db.addUserReq(req, addRes);
+        userController.addUserReq(req, addRes);
         setTimeout(function () {
-            db.loginUser(req, loginRes);
+            userController.loginUser(req, loginRes);
         }, testTimeout)
 
     })
@@ -164,9 +164,9 @@ describe("loginUser()", function() {
             }
         }
         
-        db.addUserReq(req, addRes);
+        userController.addUserReq(req, addRes);
         setTimeout(function () {
-            db.loginUser(loginReq, loginRes);
+            userController.loginUser(loginReq, loginRes);
         }, testTimeout)
 
     })
@@ -183,7 +183,7 @@ describe("loginUser()", function() {
             }
         }
         
-        db.loginUser(req, loginRes);
+        userController.loginUser(req, loginRes);
         
     })
 

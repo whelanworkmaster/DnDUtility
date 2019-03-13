@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-var db = require('./controller/db');
+const userController = require('./controller/user.controller');
+const router = require('./routes/router');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -12,25 +13,25 @@ app.use(cors());
 
 
 
-db.connectToDB();
+router.connectToDB();
 
 app.get('/api/getUsers', (req, res) => {
-    db.getAllUsers(res);
+    userController.getAllUsers(res);
 })
 
 
 app.get('/api/getUserByUsername', (req, res) => {
-    db.getUserByUsername(req, res);
+    userController.getUserByUsername(req, res);
 })
 
 
 app.post('/api/addUser', (req, res) => {
-    db.addUserReq(req, res);
+    userController.addUserReq(req, res);
 });
 
 
 app.post('/api/loginUser', (req, res) => {
-    db.loginUser(req, res);
+    userController.loginUser(req, res);
 });
 
 
