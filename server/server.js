@@ -55,5 +55,9 @@ app.post('/api/updateNote', (req, res) => {
     noteController.updateNote(req, res);
 });
 
+app.post('/api/deleteNote', (req, res) => {
+    noteController.deleteNote(req, res);
+});
+
 
 app.listen(port, () => console.log(`Listening on port: ${port}`));

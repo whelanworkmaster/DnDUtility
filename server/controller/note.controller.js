@@ -61,3 +61,19 @@ module.exports.updateNote = function(req, res) {
         return res.send("succesfully saved");
     });
 }
+
+module.exports.deleteNote = function(req, res) {
+    let query = { username: req.body.username };
+
+    Note.findOneAndRemove(query, function(err, result) {
+        if(err){
+            res.status(500);
+            return res.send({error: err});
+        } 
+        else if(result === null) {
+            res.status(400);
+            return res.send('record not found');
+        }
+        else return res.send('successfully deleted');
+    })
+}

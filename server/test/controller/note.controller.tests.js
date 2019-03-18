@@ -43,30 +43,6 @@ describe('addNotes', function() {
         }, timeout)
     })
 
-    // it('should fail when a note for a user already exists', function(done) {
-    //     let addRes = {
-    //         status: function(response) {
-    //             assert(response == 400);
-    //         },
-    //         send: function(send) {
-    //             console.log(send);
-    //             assert(send === 'Failed adding note');
-    //             done();
-    //         }
-    //     }
-
-    //     notesController.addNoteReq(addReq, addRes);
-    //     setTimeout(function () {
-    //         notesController.addNoteReq(addReq, addRes);
-    //         notesController.getAllNotes( function(result) {
-    //             console.log("result: " + result);
-    //         })
-    //     }, timeout);
-    //     setTimeout(function () {
-            
-    //     }, timeout)
-    // })
-
 })
 
 describe('getNotes', function() {
@@ -124,4 +100,43 @@ describe('updateNote()', function() {
         })
 
     })
+})
+
+describe('deleteNote()', function() {
+
+    let deleteReq = { body: {
+        username: testUser,
+        note: testNote
+    }};
+
+    it('should delete a note that exists, based on username', function(done) {
+        let res = {
+            status: function(res){
+                assert(res === 200);
+            },
+            send: function(result) {
+                assert(result === 'successfully deleted');
+                done();
+            }
+        }
+    
+        notesController.addNote(testUser, testNote).then(() => {
+            notesController.deleteNote(deleteReq, res);
+        })
+    })
+
+    it('should return a 400 if trying to delete note not found', function(done) {
+        let res = {
+            status: function(res){
+                assert(res === 400);
+            },
+            send: function(result) {
+                assert(result === 'record not found');
+                done();
+            }
+        }
+
+        notesController.deleteNote(deleteReq, res);
+    })
+    
 })
