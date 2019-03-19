@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 
-class Login extends Component {
+class NewUser extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             username : "",
-            password : ""
+            password : "",
+            confirmPassword: ""
         }
     }
 
@@ -22,9 +23,16 @@ class Login extends Component {
     handleSubmit() {
         return e => {
             e.preventDefault();
-            fetch('http://localhost:5000/api/loginUser', {
+            if(this.state.password !== this.state.confirmPassword) {
+                this.setState({data: 'passwords must match'})
+                return;
+            }
+            let request = {username: this.state.username, 
+                password: this.state.password}
+            console.log(request);
+            fetch('http://localhost:5000/api/addUser', {
                 method: 'post',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(request),
                 headers: {"content-type": "application/json"}
             })
             .then(response => {
@@ -39,7 +47,7 @@ class Login extends Component {
         return(
             <div className="Content">
                 <div className="Center-content">
-                    <div>Sign In</div>
+                    <div>Create User</div>
                     <form className="Login-form" onSubmit={this.handleSubmit()}>
                         <input type="text" 
                             name="username" 
@@ -53,7 +61,13 @@ class Login extends Component {
                             value={this.state.password} 
                             onChange={this.handleChange("password")}
                         />
-                        <input type="submit" value="Sign In"></input>
+                        <input type="password" 
+                            name="password" 
+                            placeholder="Confirm Password"
+                            value={this.state.confirmPassword} 
+                            onChange={this.handleChange("confirmPassword")}
+                        />
+                        <input type="submit" value="Create User"></input>
                     </form>
                     <div>{this.state.data}</div>
                 </div>
@@ -63,4 +77,4 @@ class Login extends Component {
 
 }
 
-export default Login;
+export default NewUser;

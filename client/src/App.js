@@ -4,6 +4,7 @@ import DiceRoller from './components/DiceRoller.js';
 import SideMenu from './components/SideMenu.js';
 import CapersAndHeists from './components/CapersAndHeists';
 import Login from './components/Login';
+import NewUser from './components/NewUser';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
                 <Route path="/diceRoller" component={DiceRoller}></Route>
                 <Route path="/capersAndHeists" component={CapersAndHeists}></Route>
                 <Route path="/login" component={Login}></Route>
+                <Route path="/newUser" component={NewUser}></Route>
               </div>
             </div>
           </Router>

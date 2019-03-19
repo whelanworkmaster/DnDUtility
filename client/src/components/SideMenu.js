@@ -14,6 +14,7 @@ class SideMenu extends Component{
         return(
             <div className={this.state.menuClass} onMouseOver={this.showMenu}>
                 <Link to="/login" className="Menu-button">Login</Link>
+                <Link to="/newUser" className="Menu-button">Create User</Link>
                 <Link to="/diceRoller" className="Menu-button">Dice Roller</Link>
                 <Link to="/capersAndHeists" className="Menu-button">Heist Game</Link>    
             </div>
