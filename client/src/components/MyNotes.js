@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { userLoggedIn } from '../actions/userAction'
 
-function mapDispatchToProps(dispatch) {
-    return {
-        userLoggedIn: user => dispatch(userLoggedIn(user))
-    };
-}
-
-class ConnectLogin extends Component {
+class MyNotes extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            username : "",
-            password : ""
+            
         }
     }
 
@@ -30,15 +21,20 @@ class ConnectLogin extends Component {
     handleSubmit() {
         return e => {
             e.preventDefault();
-            fetch('http://localhost:5000/api/loginUser', {
+            if(this.state.password !== this.state.confirmPassword) {
+                this.setState({data: 'passwords must match'})
+                return;
+            }
+            let request = {username: this.state.username, 
+                password: this.state.password}
+            console.log(request);
+            fetch('http://localhost:5000/api/addUser', {
                 method: 'post',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(request),
                 headers: {"content-type": "application/json"}
             })
             .then(response => {
-                if(response.status === 200) {
-                    this.props.userLoggedIn(this.state.username);
-                }
+                this.setState({ data: response.status })
                 console.log(response.status);
             })
             .catch(err => console.log(err));
@@ -49,7 +45,7 @@ class ConnectLogin extends Component {
         return(
             <div className="Content">
                 <div className="Center-content">
-                    <div>Sign In</div>
+                    <div>Create User</div>
                     <form className="Login-form" onSubmit={this.handleSubmit()}>
                         <input type="text" 
                             name="username" 
@@ -63,7 +59,13 @@ class ConnectLogin extends Component {
                             value={this.state.password} 
                             onChange={this.handleChange("password")}
                         />
-                        <input type="submit" value="Sign In"></input>
+                        <input type="password" 
+                            name="password" 
+                            placeholder="Confirm Password"
+                            value={this.state.confirmPassword} 
+                            onChange={this.handleChange("confirmPassword")}
+                        />
+                        <input type="submit" value="Create User"></input>
                     </form>
                     <div>{this.state.data}</div>
                 </div>
@@ -73,6 +75,4 @@ class ConnectLogin extends Component {
 
 }
 
-const Login = connect(null, mapDispatchToProps) (ConnectLogin);
-
-export default Login;
+export default MyNotes;
