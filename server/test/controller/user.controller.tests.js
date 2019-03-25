@@ -188,3 +188,41 @@ describe("loginUser()", function() {
     })
 
 })
+
+describe('deleteUser()', function() {
+
+    let deleteReq = { body: {
+        username: testUsername
+    }};
+
+    it('should delete a user that exists, based on username', function(done) {
+        let res = {
+            status: function(res){
+                assert(res === 200);
+            },
+            send: function(result) {
+                assert(result === 'successfully deleted');
+                done();
+            }
+        }
+    
+        userController.addUser(testUsername, testPassword).then(() => {
+            userController.deleteUser(deleteReq, res);
+        })
+    })
+
+    it('should return a 400 if trying to delete note not found', function(done) {
+        let res = {
+            status: function(res){
+                assert(res === 400);
+            },
+            send: function(result) {
+                assert(result === 'record not found');
+                done();
+            }
+        }
+
+        userController.deleteUser(deleteReq, res);
+    })
+    
+})

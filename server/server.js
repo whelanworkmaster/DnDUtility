@@ -35,6 +35,10 @@ app.post('/api/loginUser', (req, res) => {
     userController.loginUser(req, res);
 });
 
+app.post('/api/deleteUser', (req, res) => {
+    userController.deleteUser(req, res);
+})
+
 
 app.get('/api/getNotes', (req, res) => {
     noteController.getAllNotes(res);
