@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {
-    console.log(state);
-    return { userLoggedIn: state.userLoggedIn };
+    console.log(state.user);
+    return { userLoggedIn: state.user };
 };
 
 const ConnectedUserLoggedIn = ({ userLoggedIn }) => (
